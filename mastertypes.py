@@ -7,3 +7,6 @@ class syllable:
 
     def __str__(self):
         return str({"consonant" : self.consonant, "vowel" : self.vowel})
+
+    def key(self):
+        return self.sound

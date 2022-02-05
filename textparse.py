@@ -7,7 +7,9 @@ keys = [i[:-1] for i in open("syll.txt", "r").readlines() if i != ""]
 
 class textparser:
 
-    def __init__(self, keys):
+    def __init__(self):
+        vowels = 'aeiou'
+        keys = [i[:-1] for i in open("syll.txt", "r").readlines() if i != ""]
         self.syllables = keys
         self.syllabledict = self.builddict(self.syllables)
         self.repl = {"sha" : "shiya",
@@ -21,7 +23,13 @@ class textparser:
                      "ju" : "jiyu",
                      "kya" : "kiya",
                      "kyo" : "kiyo",
-                     "kyu" : "kiyu",}
+                     "kyu" : "kiyu",
+                     "mya" : "miya",
+                     "myo" : "miyo",
+                     "myu" : "miyu",
+                     "bya" : "biya",
+                     "byo" : "biyo",
+                     "byu" : "biyu",}
 
     def builddict(self, keys):
         word = {}
@@ -63,7 +71,9 @@ class textparser:
         text = text.lower()
         for target, walmart in self.repl.items():
             text = re.sub(target, walmart, text)
-        text = re.sub(r"[^a-zA-Z0-9_ ]", "", text)
+        text = re.sub(r"\n", " ", text)
+        text = re.sub(r"[^a-zA-Z_ ]", "", text)
+        text = text.replace("l", "r")
         list = re.split("\W", text)
         list = [i for i in list if i != ""]
         chosen = False
@@ -80,6 +90,10 @@ class textparser:
                         word.append(self.syllabledict[word[-1].vowel])
                         text = text[ix:]
                         chosen = True
+                    elif attempt == "n" and text[:ix+1] in self.syllables:
+                        word.append(self.syllabledict[text[:ix+1]])
+                        text = text[ix+1:]
+                        chosen = True
                     elif attempt in self.syllables:
                         word.append(self.syllabledict[attempt])
                         text = text[ix:]
@@ -91,7 +105,14 @@ class textparser:
         return final
 
 
-words = textparser(keys).parse('zutto soba de miteru yo BAKKUAPPU wa makasete hidari kara migi e to dekigoto ga acchi kocchi docchi kimi wa koko ni iru no? BAASUDEI mada saki desho? ii kagen ni koyubi kara  mienai ito shuchou shinai')
+#words = textparser(keys).parse('zutto soba de miteru yo BAKKUAPPU wa makasete hidari kara migi e to dekigoto ga acchi kocchi docchi kimi wa koko ni iru no? BAASUDEI mada saki desho? ii kagen ni koyubi kara  mienai ito shuchou shinai')
+
+with open("the funny.txt", "r") as a:
+    b = a.read()
+    a.close()
+print("b")
+words = textparser().parse(b)
+print(words)
 
 
 for i in words:
