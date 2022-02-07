@@ -1,5 +1,4 @@
 import re
-import time
 from mastertypes import syllable
 
 vowels = 'aeiou'
@@ -105,15 +104,16 @@ class textparser:
         return final
 
 
-#words = textparser(keys).parse('zutto soba de miteru yo BAKKUAPPU wa makasete hidari kara migi e to dekigoto ga acchi kocchi docchi kimi wa koko ni iru no? BAASUDEI mada saki desho? ii kagen ni koyubi kara  mienai ito shuchou shinai')
+if __name__ == "__main__":
+    #words = textparser(keys).parse('zutto soba de miteru yo BAKKUAPPU wa makasete hidari kara migi e to dekigoto ga acchi kocchi docchi kimi wa koko ni iru no? BAASUDEI mada saki desho? ii kagen ni koyubi kara  mienai ito shuchou shinai')
 
-with open("the funny.txt", "r") as a:
-    b = a.read()
-    a.close()
-print("b")
-words = textparser().parse(b)
-print(words)
+    with open("the funny.txt", "r") as a:
+        b = a.read()
+        a.close()
+    print("b")
+    words = textparser().parse(b)
+    print(words)
 
 
-for i in words:
-    print("\n".join(str(idx + 1) + ".\t" + str(x) for idx, x in enumerate(i)) + "\n")
+    for i in words:
+        print("\n".join(str(idx + 1) + ".\t" + str(x) for idx, x in enumerate(i)) + "\n")
