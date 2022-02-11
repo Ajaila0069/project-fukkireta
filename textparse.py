@@ -11,15 +11,7 @@ class textparser:
         keys = [i[:-1] for i in open("syll.txt", "r").readlines() if i != ""]
         self.syllables = keys
         self.syllabledict = self.builddict(self.syllables)
-        self.repl = {"sha" : "shiya",
-                     "sho" : "shiyo",
-                     "shu" : "shiyu",
-                     "cha" : "chiya",
-                     "cho" : "chiyo",
-                     "chu" : "chiyu",
-                     "ja" : "jiya",
-                     "jo" : "jiyo",
-                     "ju" : "jiyu",
+        self.repl = {
                      "kya" : "kiya",
                      "kyo" : "kiyo",
                      "kyu" : "kiyu",
@@ -84,15 +76,24 @@ class textparser:
                 chosen = False
                 while not chosen:
                     attempt = text[:ix]
+                    print(attempt)
                     if len(attempt) == 2 and attempt[0] == attempt[1] and attempt[0] not in vowels:
                         ix = 1
-                        word.append(self.syllabledict[word[-1].vowel])
+                        #word.append(self.syllabledict[word[-1].vowel])
                         text = text[ix:]
                         chosen = True
                     elif attempt == "n" and text[:ix+1] in self.syllables:
                         word.append(self.syllabledict[text[:ix+1]])
                         text = text[ix+1:]
                         chosen = True
+                        """
+                    elif attempt == "n" and text[1:ix+2] in self.syllables:
+                        print("3")
+                        print(text[1:ix+2])
+                        word.append(self.syllabledict[text[:ix]])
+                        text = text[ix:]
+                        chosen = True
+                        """
                     elif attempt in self.syllables:
                         word.append(self.syllabledict[attempt])
                         text = text[ix:]
@@ -100,7 +101,7 @@ class textparser:
                     ix += 1
             final.append(word)
             #print("\n".join(str(i) for i in word) + "\n\n")
-        final = self.n_fix(final)
+        #final = self.n_fix(final)
         return final
 
 

@@ -4,9 +4,12 @@ from textparse import textparser
 import numpy as np
 
 parse = textparser()
-text = "hitotsu"
+with open("the funny.txt", "r") as a:
+    text = a.read()
+    a.close()
 
-path = 'samples'
+#text = "zutto soba de miteru yo BAKKUAPPU wa makasete hidari kara migi e to dekigoto ga acchi kocchi docchi kimi wa koko ni iru no? BAASUDEI mada saki desho? ii kagen ni koyubi kara  mienai ito shuchou shinai"
+path = 'when the'
 samples = {}
 
 for name in os.listdir(path):
@@ -17,12 +20,14 @@ for name in os.listdir(path):
     samples[name] = audio
 
 words = parse.parse(text)
+print(words)
 
-string = AudioSegment.silent(duration=10)
+string = AudioSegment.silent(duration=12)
 for word in words:
-    word_sound = AudioSegment.silent(duration=10)
+    print(word)
+    word_sound = AudioSegment.silent(duration=12)
     for character in word:
-        word_sound = word_sound.append(samples[character.key()], crossfade = 10)
+        word_sound = word_sound.append(samples[character.key()], crossfade = 12)
     string += word_sound
 
 string.export("phrase.mp3", format="mp3")
