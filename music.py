@@ -15,12 +15,13 @@ path = 'the me'
 samples = {}
 
 for name in os.listdir(path):
-    fullpath = os.path.join(path, name)
-    extension = name.split(".")[1][:3]
-    name = name[:-4]
-    print(name)
-    audio = AudioSegment.from_file(fullpath, format=extension)
-    samples[name] = audio
+    if not name.startswith("."):
+        fullpath = os.path.join(path, name)
+        extension = name.split(".")[1][:3]
+        name = name[:-4]
+        print(name)
+        audio = AudioSegment.from_file(fullpath, format=extension)
+        samples[name] = audio
 
 words = parse.parse(text)
 print(words)
@@ -38,8 +39,8 @@ for word in words:
             yf[:shift] = 0
         else:
             yf[-shift:] = 0
-        pitch_shift = samples[character.key()]._spawn(irfft(yf).astype(np.int16))
-        
+        pitch_shift = samples[character.key()]._spawn(irfft(yf).astype(word_sound.dtype))
+
         word_sound = word_sound.append(pitch_shift, crossfade = 12)
     string += word_sound
 
